@@ -19,6 +19,11 @@ public class Task {
 	public Task(String task) {
 		this.task = task;
 	}
+	
+	public Task(String task, Boolean hasDone) {
+		this.task = task;
+		this.hasDone = hasDone;
+	}
 
 	public Long getId() {
 		return id;

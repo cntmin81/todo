@@ -28,9 +28,9 @@ public class MyTodoApplication {
 			log.info("Task Repository test");
 			
 			// Task저장
-			taskRepository.save(new Task("Todo어플리케이션 만들기"));
-			taskRepository.save(new Task("청소하기"));
-			taskRepository.save(new Task("운동하기"));
+			taskRepository.save(new Task("Todo어플리케이션 만들기", false));
+			taskRepository.save(new Task("청소하기", false));
+			taskRepository.save(new Task("운동하기", true));
 			
 			// 모든Task출력
 			Iterable<Task> taskList = taskRepository.findAll();

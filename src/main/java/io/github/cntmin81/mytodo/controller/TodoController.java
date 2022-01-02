@@ -35,16 +35,11 @@ public class TodoController {
 		model.addAttribute("taskList", taskList);
 		return "tasklist";
 	}
-	
-	@GetMapping("/newtask")
-	public String newTask(@ModelAttribute TaskRequest taskRequest, Model model) {
-		return "newtask";
-	}
-	
+		
 	@PostMapping("/addtask")
 	public String addTask(@ModelAttribute TaskRequest taskRequest, Model model) {
 		log.info(taskRequest.toString());
-		taskRepository.save(new Task(taskRequest.getTask()));
+		taskRepository.save(new Task(taskRequest.getTask(), false));
 		return "redirect:tasklist";
 	}
 }
