@@ -3,12 +3,35 @@
 <head>
 <title>Todo::Task List</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+  href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" />
 </head>
 <body>
-  <table>
-    <tr th:each="task: ${taskList}">
-      <td th:text="${task.task}" />
-    </tr>
-  </table>
+  <div class="container">
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/tasklist">Todo</a>
+      </div>
+    </nav>
+    <ul class="list-group">
+      <li class="list-group-item" th:each="task: ${taskList}">
+        <button type="button" class="btn btn-default btn-xs">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+        <span th:text="${task.task}">Task will be placed here</span>
+      </li>
+    </ul>
+    <form role="form" th:action="@{/addtask}" th:object="${taskRequest}"
+      method="post">
+      <div class="form-group">
+        <input type="text" class="form-control" th:field="*{task}"
+          placeholder="Your task for today">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Task추가</button>
+    </form>
+
+  </div>
+  <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+  <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 </body>
 </html>

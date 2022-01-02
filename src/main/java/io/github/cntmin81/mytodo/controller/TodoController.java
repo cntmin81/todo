@@ -30,7 +30,7 @@ public class TodoController {
 	}
 	
 	@GetMapping("/tasklist")
-	public String taskList(Model model) {
+	public String taskList(@ModelAttribute TaskRequest taskRequest, Model model) {
 		Iterable<Task> taskList = taskRepository.findAll();
 		model.addAttribute("taskList", taskList);
 		return "tasklist";
