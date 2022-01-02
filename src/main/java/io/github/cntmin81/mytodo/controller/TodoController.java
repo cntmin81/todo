@@ -50,7 +50,11 @@ public class TodoController {
 		log.info(taskRequest.toString());
 		Optional<Task> tempTask = taskRepository.findById(taskRequest.getId());
 		tempTask.ifPresent(task -> {
-			task.setHasDone(true);
+			if (task.getHasDone()) {
+				task.setHasDone(false);	
+			} else {
+				task.setHasDone(true);
+			}
 			taskRepository.save(task);
 		});
 		return "redirect:tasklist";
