@@ -11,6 +11,7 @@ public class Task {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String task;
+	private Boolean hasDone;
 
 	public Task() {
 	}
@@ -19,6 +20,10 @@ public class Task {
 		this.task = task;
 	}
 
+	public Long getId() {
+		return id;
+	}
+	
 	public String getTask() {
 		return task;
 	}
@@ -27,9 +32,16 @@ public class Task {
 		this.task = task;
 	}
 
+	public Boolean getHasDone() {
+		return hasDone;
+	}
+
+	public void setHasDone(Boolean hasDone) {
+		this.hasDone = hasDone;
+	}
+
 	@Override
 	public String toString() {
-		return "Task [id=" + id + ", task=" + task + "]";
+		return "Task [id=" + id + ", task=" + task + ", hasDone=" + hasDone + "]";
 	}
-	
 }

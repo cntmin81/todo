@@ -13,11 +13,15 @@
         <a class="navbar-brand" href="/tasklist">Todo</a>
       </div>
     </nav>
+    <div class="text-center">
+      <img th:src="@{/images/simple_todo_logo.jpg}" alt="SIMPLE TODO">
+    </div>
     <ul class="list-group">
       <li class="list-group-item" th:each="task: ${taskList}">
         <button type="button" class="btn btn-default btn-xs">
           <span class="glyphicon glyphicon-ok"></span>
         </button>
+        <span th:text="${task.id}" style="display:none">ID will be placed here</span>
         <span th:text="${task.task}">Task will be placed here</span>
       </li>
     </ul>
