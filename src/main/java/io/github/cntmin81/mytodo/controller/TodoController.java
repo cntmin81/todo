@@ -42,4 +42,10 @@ public class TodoController {
 		taskRepository.save(new Task(taskRequest.getTask(), false));
 		return "redirect:tasklist";
 	}
+	
+	@PostMapping("/updatetask")
+	public String updateTask(@ModelAttribute TaskRequest taskRequest, Model model) {
+		log.info(taskRequest.toString());
+		return "redirect:tasklist";
+	}
 }

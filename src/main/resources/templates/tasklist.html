@@ -18,11 +18,11 @@
     </div>
     <ul class="list-group">
       <li class="list-group-item" th:each="task: ${taskList}">
-        <form role="form"  th:action="@{/updatetask}" method="post">
+        <form role="form"  th:action="@{/updatetask}" th:object="${taskRequest}" method="post">
+          <input type="hidden" name="id" th:value="${task.id}"/>
           <button type="submit" class="btn btn-default btn-xs">
             <span class="glyphicon glyphicon-ok"></span>
           </button>
-          <input type="hidden" th:value="${task.id}" />
           <span th:text="${task.task}">Task
             will be placed here</span>
         </form>
