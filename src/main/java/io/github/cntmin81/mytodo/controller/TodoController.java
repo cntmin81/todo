@@ -1,5 +1,7 @@
 package io.github.cntmin81.mytodo.controller;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,36 +18,41 @@ import io.github.cntmin81.mytodo.repository.TaskRepository;
 
 @Controller
 public class TodoController {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(TodoController.class);
-	
+
 	@Autowired
 	private TaskRepository taskRepository;
-	
+
 	@GetMapping("/greeting")
 	public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
 			Model model) {
 		model.addAttribute("name", name);
 		return "greeting";
 	}
-	
+
 	@GetMapping("/tasklist")
 	public String taskList(@ModelAttribute TaskRequest taskRequest, Model model) {
 		Iterable<Task> taskList = taskRepository.findAll();
 		model.addAttribute("taskList", taskList);
 		return "tasklist";
 	}
-		
+
 	@PostMapping("/addtask")
 	public String addTask(@ModelAttribute TaskRequest taskRequest, Model model) {
 		log.info(taskRequest.toString());
 		taskRepository.save(new Task(taskRequest.getTask(), false));
 		return "redirect:tasklist";
 	}
-	
+
 	@PostMapping("/updatetask")
 	public String updateTask(@ModelAttribute TaskRequest taskRequest, Model model) {
 		log.info(taskRequest.toString());
+		Optional<Task> tempTask = taskRepository.findById(taskRequest.getId());
+		tempTask.ifPresent(task -> {
+			task.setHasDone(true);
+			taskRepository.save(task);
+		});
 		return "redirect:tasklist";
 	}
 }
