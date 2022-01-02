@@ -13,18 +13,20 @@
         <a class="navbar-brand" href="/tasklist">Todo</a>
       </div>
     </nav>
-    <div class="text-center">
-      <img th:src="@{/images/simple_todo_logo.jpg}" alt="SIMPLE TODO">
-    </div>
     <ul class="list-group">
       <li class="list-group-item" th:each="task: ${taskList}">
-        <form role="form"  th:action="@{/updatetask}" th:object="${taskRequest}" method="post">
-          <input type="hidden" name="id" th:value="${task.id}"/>
-          <button type="submit" class="btn btn-default btn-xs">
-            <span class="glyphicon glyphicon-ok"></span>
+        <form role="form" th:action="@{/updatetask}"
+          th:object="${taskRequest}" method="post">
+          <input type="hidden" name="id" th:value="${task.id}" />
+          <button type="submit" class="btn btn-link btn-xs">
+            <th:block th:if="${task.hasDone}">
+              <span class="glyphicon glyphicon-check"></span>
+            </th:block>
+            <th:block th:unless="${task.hasDone}">
+              <span class="glyphicon glyphicon-unchecked"></span>
+            </th:block>
           </button>
-          <span th:text="${task.task}">Task
-            will be placed here</span>
+          <span th:text="${task.task}">Task will be placed here</span>
         </form>
       </li>
     </ul>
@@ -32,9 +34,9 @@
       method="post">
       <div class="form-group">
         <input type="text" class="form-control" th:field="*{task}"
-          placeholder="Your task for today">
+          placeholder="오늘의 할일은 무엇인가요?">
       </div>
-      <button type="submit" class="btn btn-primary btn-block">Task추가</button>
+      <button type="submit" class="btn btn-primary btn-block">할일 추가</button>
     </form>
 
   </div>
