@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Todo::Task List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+  <table>
+    <tr th:each="task: ${taskList}">
+      <td th:text="${task.task}" />
+    </tr>
+  </table>
+</body>
+</html>
