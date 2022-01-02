@@ -18,11 +18,14 @@
     </div>
     <ul class="list-group">
       <li class="list-group-item" th:each="task: ${taskList}">
-        <button type="button" class="btn btn-default btn-xs">
-          <span class="glyphicon glyphicon-ok"></span>
-        </button>
-        <span th:text="${task.id}" style="display:none">ID will be placed here</span>
-        <span th:text="${task.task}">Task will be placed here</span>
+        <form role="form"  th:action="@{/updatetask}">
+          <button type="submit" class="btn btn-default btn-xs">
+            <span class="glyphicon glyphicon-ok"></span>
+          </button>
+          <input type="hidden" th:value="${task.id}" />
+          <span th:text="${task.task}">Task
+            will be placed here</span>
+        </form>
       </li>
     </ul>
     <form role="form" th:action="@{/addtask}" th:object="${taskRequest}"
