@@ -20,6 +20,17 @@
       </div>
     </div>
   </nav>
+  <div class="container" style="margin-bottom: 1em;">
+    <form role="form" th:action="@{/addtask}" th:object="${taskRequest}"
+      method="post">
+      <div class="form-group">
+        <input type="text" class="form-control" th:field="*{task}"
+          placeholder="오늘의 할일은 무엇인가요?">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">할일
+        추가</button>
+    </form>
+  </div>
   <div class="container">
     <h4>오늘의 할 일 목록</h4>
     <ul class="list-group">
@@ -57,24 +68,15 @@
         </form>
       </li>
     </ul>
-    <form role="form" th:action="@{/addtask}" th:object="${taskRequest}"
-      method="post">
-      <div class="form-group">
-        <input type="text" class="form-control" th:field="*{task}"
-          placeholder="오늘의 할일은 무엇인가요?">
-      </div>
-      <button type="submit" class="btn btn-primary btn-block">할일
-        추가</button>
-    </form>
-    <footer class="text-center" style="margin: 2em 0 3em 0;">
-      <div class="row">
-        <p>
-          © 2022 Copyright:
-          <a href="https://orangeduck.tistory.com">orangeduck.tistory.com</a>
-        </p>
-      </div>
-    </footer>
   </div>
+  <footer class="text-center" style="margin: 2em 0 3em 0;">
+    <div class="container">
+      <p>
+        © 2022 Copyright:
+        <a href="https://orangeduck.tistory.com">orangeduck.tistory.com</a>
+      </p>
+    </div>
+  </footer>
   <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
   <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 </body>
