@@ -23,6 +23,11 @@ public class TodoController {
 
 	@Autowired
 	private TaskRepository taskRepository;
+	
+	@GetMapping("/")
+	public String index() {
+		return "redirect:tasklist";
+	}
 
 	@GetMapping("/greeting")
 	public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name,

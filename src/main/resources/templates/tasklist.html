@@ -7,12 +7,20 @@
   href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" />
 </head>
 <body>
-  <div class="container">
-    <nav class="navbar navbar-default" role="navigation">
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" href="/tasklist">Todo</a>
+        <a class="navbar-brand" href="/tasklist">Simple Todo</a>
       </div>
-    </nav>
+      <div class="navbar-right">
+        <form th:action="@{/logout}" method="post">
+          <button type="submit"
+            class="btn btn-default btn-sm navbar-btn ">로그아웃</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
     <h4>오늘의 할 일 목록</h4>
     <ul class="list-group">
       <li class="list-group-item" th:each="task: ${todayTaskList}">
@@ -58,11 +66,11 @@
       <button type="submit" class="btn btn-primary btn-block">할일
         추가</button>
     </form>
-    <footer class="text-center" style="margin:2em 0 3em 0;">
+    <footer class="text-center" style="margin: 2em 0 3em 0;">
       <div class="row">
-      <p>
-        © 2022 Copyright:
-        <a href="https://orangeduck.tistory.com">orangeduck.tistory.com</a>
+        <p>
+          © 2022 Copyright:
+          <a href="https://orangeduck.tistory.com">orangeduck.tistory.com</a>
         </p>
       </div>
     </footer>
