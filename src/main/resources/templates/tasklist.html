@@ -13,8 +13,27 @@
         <a class="navbar-brand" href="/tasklist">Todo</a>
       </div>
     </nav>
+    <h4>오늘의 할 일 목록</h4>
     <ul class="list-group">
-      <li class="list-group-item" th:each="task: ${taskList}">
+      <li class="list-group-item" th:each="task: ${todayTaskList}">
+        <form role="form" th:action="@{/updatetask}"
+          th:object="${taskRequest}" method="post">
+          <input type="hidden" name="id" th:value="${task.id}" />
+          <button type="submit" class="btn btn-link btn-xs">
+            <th:block th:if="${task.hasDone}">
+              <span class="glyphicon glyphicon-check"></span>
+            </th:block>
+            <th:block th:unless="${task.hasDone}">
+              <span class="glyphicon glyphicon-unchecked"></span>
+            </th:block>
+          </button>
+          <span th:text="${task.task}">Task will be placed here</span>
+        </form>
+      </li>
+    </ul>
+    <h4>완료된 할 일 목록</h4>
+    <ul class="list-group">
+      <li class="list-group-item" th:each="task: ${hasDoneTaskList}">
         <form role="form" th:action="@{/updatetask}"
           th:object="${taskRequest}" method="post">
           <input type="hidden" name="id" th:value="${task.id}" />

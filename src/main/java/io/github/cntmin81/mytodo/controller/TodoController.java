@@ -34,7 +34,13 @@ public class TodoController {
 	@GetMapping("/tasklist")
 	public String taskList(@ModelAttribute TaskRequest taskRequest, Model model) {
 		Iterable<Task> taskList = taskRepository.findAll();
+		Iterable<Task> hasDoneTaskList = taskRepository.findByHasDone(true);
+		Iterable<Task> hasNotDoneTaskList = taskRepository.findByHasDone(false);
+		log.info(hasDoneTaskList.toString());
+		log.info(hasNotDoneTaskList.toString());
 		model.addAttribute("taskList", taskList);
+		model.addAttribute("hasDoneTaskList", hasDoneTaskList);
+		model.addAttribute("todayTaskList", hasNotDoneTaskList);
 		return "tasklist";
 	}
 
