@@ -5,6 +5,10 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import io.github.cntmin81.mytodo.dto.TaskRequest;
 import io.github.cntmin81.mytodo.entity.Task;
+import io.github.cntmin81.mytodo.entity.UserEntity;
 import io.github.cntmin81.mytodo.repository.TaskRepository;
+import io.github.cntmin81.mytodo.repository.UserRepository;
 
 @Controller
 public class TodoController {
@@ -22,8 +28,14 @@ public class TodoController {
 	private static final Logger log = LoggerFactory.getLogger(TodoController.class);
 
 	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
 	private TaskRepository taskRepository;
-	
+
 	@GetMapping("/")
 	public String index() {
 		return "redirect:tasklist";
@@ -37,7 +49,15 @@ public class TodoController {
 	}
 
 	@GetMapping("/tasklist")
-	public String taskList(@ModelAttribute TaskRequest taskRequest, Model model) {
+	public String taskList(Authentication authentication, @ModelAttribute TaskRequest taskRequest, Model model) {
+		String username = "";
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			username = ((UserDetails) principal).getUsername();
+		} else {
+			username = principal.toString();
+		}
+
 		Iterable<Task> taskList = taskRepository.findAll();
 		Iterable<Task> hasDoneTaskList = taskRepository.findByHasDone(true);
 		Iterable<Task> hasNotDoneTaskList = taskRepository.findByHasDone(false);
@@ -62,12 +82,19 @@ public class TodoController {
 		Optional<Task> tempTask = taskRepository.findById(taskRequest.getId());
 		tempTask.ifPresent(task -> {
 			if (task.getHasDone()) {
-				task.setHasDone(false);	
+				task.setHasDone(false);
 			} else {
 				task.setHasDone(true);
 			}
 			taskRepository.save(task);
 		});
 		return "redirect:tasklist";
+	}
+
+	@GetMapping("/signup")
+	public String signup() {
+		UserEntity user = new UserEntity("u1", passwordEncoder.encode("1234"), "user");
+		userRepository.save(user);
+		return "redirect:login";
 	}
 }
