@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import io.github.cntmin81.mytodo.dto.SignupRequest;
 import io.github.cntmin81.mytodo.dto.TaskRequest;
 import io.github.cntmin81.mytodo.entity.Task;
 import io.github.cntmin81.mytodo.entity.UserEntity;
@@ -98,12 +97,12 @@ public class TodoController {
 	}
 
 	@PostMapping("/signup")
-	public String signupLogic(@ModelAttribute SignupRequest signupRequest) {
-		String username = signupRequest.getUsername();
-		String password = signupRequest.getPassword();
+	public String signupLogic(@ModelAttribute UserEntity userEntity) {
+		String username = userEntity.getName();
+		String password = userEntity.getPassword();
 		log.info("usernane : " + username);
 		log.info("password : " + password);
-		UserEntity user = new UserEntity(signupRequest.getUsername(), passwordEncoder.encode(signupRequest.getPassword()), "user");
+		UserEntity user = new UserEntity(userEntity.getName(), passwordEncoder.encode(userEntity.getPassword()), "user");
 		userRepository.save(user);
 		return "redirect:login";
 	}

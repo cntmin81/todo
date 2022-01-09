@@ -23,6 +23,11 @@ public class UserEntity {
 	public UserEntity() {
 
 	}
+	
+	public UserEntity(String name, String password) {
+		this.name = name;
+		this.password = password;
+	}
 
 	public UserEntity(String name, String password, String role) {
 		this.name = name;
