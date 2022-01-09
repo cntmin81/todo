@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import io.github.cntmin81.mytodo.dto.SignupRequest;
 import io.github.cntmin81.mytodo.dto.TaskRequest;
 import io.github.cntmin81.mytodo.entity.Task;
 import io.github.cntmin81.mytodo.entity.UserEntity;
@@ -50,13 +51,13 @@ public class TodoController {
 
 	@GetMapping("/tasklist")
 	public String taskList(Authentication authentication, @ModelAttribute TaskRequest taskRequest, Model model) {
-		String username = "";
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof UserDetails) {
-			username = ((UserDetails) principal).getUsername();
-		} else {
-			username = principal.toString();
-		}
+//		String username = "";
+//		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		if (principal instanceof UserDetails) {
+//			username = ((UserDetails) principal).getUsername();
+//		} else {
+//			username = principal.toString();
+//		}
 
 		Iterable<Task> taskList = taskRepository.findAll();
 		Iterable<Task> hasDoneTaskList = taskRepository.findByHasDone(true);
@@ -90,10 +91,19 @@ public class TodoController {
 		});
 		return "redirect:tasklist";
 	}
-
+	
 	@GetMapping("/signup")
-	public String signup() {
-		UserEntity user = new UserEntity("u1", passwordEncoder.encode("1234"), "user");
+	public String signupView() {
+		return "signup";
+	}
+
+	@PostMapping("/signup")
+	public String signupLogic(@ModelAttribute SignupRequest signupRequest) {
+		String username = signupRequest.getUsername();
+		String password = signupRequest.getPassword();
+		log.info("usernane : " + username);
+		log.info("password : " + password);
+		UserEntity user = new UserEntity(signupRequest.getUsername(), passwordEncoder.encode(signupRequest.getPassword()), "user");
 		userRepository.save(user);
 		return "redirect:login";
 	}
