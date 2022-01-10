@@ -21,11 +21,10 @@
     </div>
   </nav>
   <div class="container" style="margin-bottom: 1em;">
-    <form role="form" th:action="@{/addtask}" th:object="${taskRequest}"
-      method="post">
+    <form role="form" th:action="@{/addtask}" method="post">
       <div class="form-group">
-        <input type="text" class="form-control" th:field="*{task}"
-          placeholder="오늘의 할일은 무엇인가요?">
+        <input type="text" class="form-control" name="task"
+          placeholder="오늘의 할일은 무엇인가요?" />
       </div>
       <button type="submit" class="btn btn-primary btn-block">할일
         추가</button>
@@ -35,8 +34,7 @@
     <h4>오늘의 할 일 목록</h4>
     <ul class="list-group">
       <li class="list-group-item" th:each="task: ${todayTaskList}">
-        <form role="form" th:action="@{/updatetask}"
-          th:object="${taskRequest}" method="post">
+        <form role="form" th:action="@{/updatetask}" method="post">
           <input type="hidden" name="id" th:value="${task.id}" />
           <button type="submit" class="btn btn-link btn-xs">
             <th:block th:if="${task.hasDone}">
@@ -53,8 +51,7 @@
     <h4>완료된 할 일 목록</h4>
     <ul class="list-group">
       <li class="list-group-item" th:each="task: ${hasDoneTaskList}">
-        <form role="form" th:action="@{/updatetask}"
-          th:object="${taskRequest}" method="post">
+        <form role="form" th:action="@{/updatetask}" method="post">
           <input type="hidden" name="id" th:value="${task.id}" />
           <button type="submit" class="btn btn-link btn-xs">
             <th:block th:if="${task.hasDone}">

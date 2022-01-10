@@ -12,11 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import io.github.cntmin81.mytodo.dto.TaskRequest;
 import io.github.cntmin81.mytodo.entity.Task;
 import io.github.cntmin81.mytodo.entity.UserEntity;
 import io.github.cntmin81.mytodo.repository.TaskRepository;
@@ -49,7 +47,7 @@ public class TodoController {
 	}
 
 	@GetMapping("/tasklist")
-	public String taskList(Authentication authentication, @ModelAttribute TaskRequest taskRequest, Model model) {
+	public String taskList(Authentication authentication, Model model) {
 //		String username = "";
 //		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //		if (principal instanceof UserDetails) {
@@ -70,39 +68,37 @@ public class TodoController {
 	}
 
 	@PostMapping("/addtask")
-	public String addTask(@ModelAttribute TaskRequest taskRequest, Model model) {
-		log.info(taskRequest.toString());
-		taskRepository.save(new Task(taskRequest.getTask(), false));
+	public String addTask(@RequestParam("task") String task) {
+		log.info(task);
+		taskRepository.save(new Task(task, false));
 		return "redirect:tasklist";
 	}
 
 	@PostMapping("/updatetask")
-	public String updateTask(@ModelAttribute TaskRequest taskRequest, Model model) {
-		log.info(taskRequest.toString());
-		Optional<Task> tempTask = taskRepository.findById(taskRequest.getId());
-		tempTask.ifPresent(task -> {
-			if (task.getHasDone()) {
-				task.setHasDone(false);
+	public String updateTask(@RequestParam("id") Long id) {
+		log.info(id.toString());
+		Optional<Task> tempTask = taskRepository.findById(id);
+		tempTask.ifPresent(dbtask -> {
+			if (dbtask.getHasDone()) {
+				dbtask.setHasDone(false);
 			} else {
-				task.setHasDone(true);
+				dbtask.setHasDone(true);
 			}
-			taskRepository.save(task);
+			taskRepository.save(dbtask);
 		});
 		return "redirect:tasklist";
 	}
-	
+
 	@GetMapping("/signup")
 	public String signupView() {
 		return "signup";
 	}
 
 	@PostMapping("/signup")
-	public String signupLogic(@ModelAttribute UserEntity userEntity) {
-		String username = userEntity.getName();
-		String password = userEntity.getPassword();
-		log.info("usernane : " + username);
+	public String signupLogic(@RequestParam("name") String name, @RequestParam("password") String password) {
+		log.info("usernane : " + name);
 		log.info("password : " + password);
-		UserEntity user = new UserEntity(userEntity.getName(), passwordEncoder.encode(userEntity.getPassword()), "user");
+		UserEntity user = new UserEntity(name, passwordEncoder.encode(password), "user");
 		userRepository.save(user);
 		return "redirect:login";
 	}
